@@ -855,8 +855,9 @@ kpxc.initObserver = function() {
 
             // Handle attributes only if CSS display is modified
             if (mut.type === 'attributes') {
-                // Check if some class is changed that folds a form or input field(s)
-                if (mut.attributeName === 'class' && mut.target.querySelector('form input') !== null) {
+                // Check if some class is changed that holds a form or input field(s). Ignore large forms.
+                const formInput = mut.target.querySelector('form input');
+                if (mut.attributeName === 'class' && formInput !== null && formInput.form.length < 20) {
                     kpxc.initCredentialFields(true);
                     continue;
                 }
